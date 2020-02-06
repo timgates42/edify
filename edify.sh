@@ -1,10 +1,16 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# The main entry point to start the edification
+#################################################
+# The main entry point to start the edification #
+#################################################
 
-echo install deadsnakes ppa
-echo install python3.8
-echo install pip
-echo install pipenv
-echo install Pipefile requirements
-echo run edify.py
+set -euo pipefail
+
+BASEDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+if ! which python3.8 ; then
+  sudo add-apt-repository ppa:deadsnakes/ppa
+  sudo apt-get update
+  sudo apt-get install python3.8
+fi
+python3.8 "${BASEDIR}/edify.py"
