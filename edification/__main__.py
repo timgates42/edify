@@ -1,12 +1,12 @@
 
 import edification.gitsetup
+import edification.vimsetup
 import edification.storage
 
 def main():
     edification.storage.prepare()
-    edification.gitsetup.gitsetup()
+    edification.vimsetup.vimsetup()
     print("""
-    echo install .vimrc
     echo setup python3.8 symlink
     """)
 
