@@ -10,12 +10,15 @@ def vimsetup():
     trg = pathlib.Path.home() / ".vimrc"
     shutil.copy(src, trg)
     pathogen()
+    syntastic()
 
 def pathogen():
     autoload = pathlib.Path.home() / ".vim" / "autoload"
+    bundle = pathlib.Path.home() / ".vim" / "bundle"
     paths = [
         pathlib.Path.home() / ".vim",
-        pathlib.Path.home() / ".vim" / "bundle",
+        bundle,
+        autoload,
     ]
     for path in paths:
         path.mkdir(exist_ok=True, parents=True)
@@ -23,3 +26,15 @@ def pathogen():
     subprocess.check_call([
         "curl", "-LSso", str(target), "https://tpo.pe/pathogen.vim"
     ])
+
+def syntastic():
+    bundle = pathlib.Path.home() / ".vim" / "bundle"
+    synpath = bundle / "syntastic"
+    if synpath.is_dir():
+        print("git update syntastic")
+    else:
+        subprocess.check_call([
+            "git", "clone", "--depth=1",
+            "https://github.com/vim-syntastic/syntastic.git",
+        ], cwd=str(bundle))
+
