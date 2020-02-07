@@ -13,19 +13,33 @@ def main():
     subprocess.check_call([
         "sudo", "apt", "install", "python3.8-distutils",
     ])
+    for retry in range(2):
+        try:
+            subprocess.check_call([
+                sys.executable, "-m", "pip", "install", "-U", "pip",
+            ])
+        except subprocess.CalledProcessError:
+            if retry:
+                raise
+            subprocess.check_call([
+                "sudo", "apt", "install", "curl",
+            ])
+            subprocess.check_call([
+                "curl", "https://bootstrap.pypa.io/get-pip.py", "-o", "get-pip.py",
+            ])
+            subprocess.check_call([
+                "sudo", sys.executable, "get-pip.py",
+            ])
+    subprocess.check_call([
+        sys.executable, "-m", "pip", "install", "-U", "pipenv",
+    ])
     subprocess.check_call([
         sys.executable, "-m", "pipenv", "install",
         "--system", "--deploy",
     ])
-    print("""
-    echo run the system based python to install the following...
-    echo 
-    echo install pip
-    echo install pipenv
-    echo install Pipefile requirements
-    echo run edify.py
-    echo install .vimrc
-    """)
+    subprocess.check_call([
+        sys.executable, "-m", "edification",
+    ])
 
 if __name__ == '__main__':
     main()
