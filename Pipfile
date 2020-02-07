@@ -63,6 +63,32 @@ pytest-cov = "*"
 coverage = "*"
 uwsgi = "*"
 python-json-logger = "*"
+pandas = "*"
+expurgator = "==0.1.3"
+rhinoplasty = "*"
+stashy = "*"
+Django = "*"
+xtea4 = "*"
+mechanize = "*"
+csv23 = "*"
+PyGithub = ">=1.44.2"
+awscli = "*"
+git-review = "*"
+django_saml2_auth = "*"
+responses = "*"
+gspread = "*"
+oauth2client = "*"
+mechanicalsoup = "*"
+requests_ntlm = "*"
+click = "*"
+whitenoise = "*"
+watchdog = {editable = true,git = "https://github.com/timgates42/watchdog.git"}
+nose = {editable = true,git = "https://github.com/timgates42/nose.git"}
+namedlist = {editable = true,git = "https://github.com/timgates42/namedlist.git"}
+html5lib = {editable = true,git = "https://github.com/timgates42/html5lib-python.git"}
+ratelimitingfilter = "*"
+pytest-timeout = "*"
+pytest-randomly = "*"
 
 [requires]
 python_version = "3.8"
