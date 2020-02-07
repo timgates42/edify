@@ -13,6 +13,9 @@ def main():
     subprocess.check_call([
         "sudo", "-H", "apt", "install", "python3.8-distutils",
     ])
+    subprocess.check_call([
+        "sudo", "-H", "apt", "install", "build-essential",
+    ])
     for retry in range(2):
         try:
             subprocess.check_call([
