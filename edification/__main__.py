@@ -1,7 +1,9 @@
 
 import edification.gitsetup
+import edification.storage
 
 def main():
+    edification.storage.prepare()
     edification.gitsetup.gitsetup()
     print("""
     echo install .vimrc
