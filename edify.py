@@ -8,10 +8,10 @@ def main():
         print("Run edify.sh to install edify", sys=sys.stderr)
         sys.exit(1)
     subprocess.check_call([
-        "sudo", "apt", "install", "python3.8-dev",
+        "sudo", "-H", "apt", "install", "python3.8-dev",
     ])
     subprocess.check_call([
-        "sudo", "apt", "install", "python3.8-distutils",
+        "sudo", "-H", "apt", "install", "python3.8-distutils",
     ])
     for retry in range(2):
         try:
@@ -22,13 +22,13 @@ def main():
             if retry:
                 raise
             subprocess.check_call([
-                "sudo", "apt", "install", "curl",
+                "sudo", "-H", "apt", "install", "curl",
             ])
             subprocess.check_call([
                 "curl", "https://bootstrap.pypa.io/get-pip.py", "-o", "get-pip.py",
             ])
             subprocess.check_call([
-                "sudo", sys.executable, "get-pip.py",
+                "sudo", "-H", sys.executable, "get-pip.py",
             ])
     subprocess.check_call([
         sys.executable, "-m", "pip", "install", "-U", "pipenv",
