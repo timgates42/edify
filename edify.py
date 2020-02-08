@@ -7,15 +7,16 @@ def main():
     if sys.version_info[:2] != (3, 8):
         print("Run edify.sh to install edify", sys=sys.stderr)
         sys.exit(1)
-    subprocess.check_call([
-        "sudo", "-H", "apt", "install", "python3.8-dev",
-    ])
-    subprocess.check_call([
-        "sudo", "-H", "apt", "install", "python3.8-distutils",
-    ])
-    subprocess.check_call([
-        "sudo", "-H", "apt", "install", "build-essential",
-    ])
+    packages = ["git", "unixodbc", "unixodbc-dev", "libldap2-dev",
+    "libsasl2-dev",
+        "python3.8-dev",
+        "python3.8-distutils",
+        "build-essential",
+    ]
+    for package in packages:
+        subprocess.check_call([
+            "sudo", "-H", "apt", "install", package,
+        ])
     for retry in range(2):
         try:
             subprocess.check_call([
