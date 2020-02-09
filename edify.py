@@ -12,6 +12,8 @@ def main():
         "python3.8-dev",
         "python3.8-distutils",
         "build-essential",
+        "vim",
+        "curl",
     ]
     subprocess.check_call([
         "sudo", "-H", "apt", "install", "-y"
@@ -24,9 +26,6 @@ def main():
         except subprocess.CalledProcessError:
             if retry:
                 raise
-            subprocess.check_call([
-                "sudo", "-H", "apt", "install", "curl",
-            ])
             subprocess.check_call([
                 "curl", "https://bootstrap.pypa.io/get-pip.py", "-o", "get-pip.py",
             ])

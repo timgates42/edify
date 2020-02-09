@@ -7,6 +7,7 @@ import edification.storage
 def main():
     edification.storage.prepare()
     edification.vimsetup.vimsetup()
+    edification.gitsetup.gitsetup()
     edification.pysetup.pysetup()
 
 if __name__ == "__main__":
