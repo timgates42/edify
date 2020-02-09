@@ -47,3 +47,10 @@ if &term == "rxvt-cygwin-native"
     imap <Esc>[8~ <C-o>$
 endif
 
+set g:black_fast=1
+
+Plugin 'gmarik/Vundle.vim'
+Plugin 'psf/black'
+Plugin 'fisadev/vim-isort'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-dispatch'
