@@ -14,6 +14,7 @@ def main():
         "build-essential",
         "vim",
         "curl",
+        "pass",
     ]
     subprocess.check_call([
         "sudo", "-H", "apt", "install", "-y"
