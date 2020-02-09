@@ -93,6 +93,13 @@ colander = "*"
 pylint = "*"
 flake8-isort = "*"
 pyflakes = "*"
+safety = "*"
+bandit = "*"
+gitpython = "*"
+mypy = "*"
+isort = "*"
+spelling = "*"
+
 
 [requires]
 python_version = "3.8"
