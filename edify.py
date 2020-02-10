@@ -14,6 +14,7 @@ def main():
     if sys.version_info[:2] != (3, 8):
         print("Run edify.sh to install edify", sys=sys.stderr)
         sys.exit(1)
+    aptinst = ["sudo", "-H", "apt", "install", "-y"]
     packages = [
         "git",
         "unixodbc",
@@ -21,13 +22,12 @@ def main():
         "libldap2-dev",
         "libsasl2-dev",
         "python3.8-dev",
-        "python3.8-distutils",
         "build-essential",
         "vim",
         "curl",
         "pass",
     ]
-    subprocess.check_call(["sudo", "-H", "apt", "install", "-y"] + packages)
+    subprocess.check_call(aptinst + packages)
     for retry in range(2):
         try:
             pipupgrade = [sys.executable, "-m", "pip", "install", "-U", "pip"]
@@ -35,6 +35,7 @@ def main():
         except subprocess.CalledProcessError:
             if retry:
                 raise
+            subprocess.check_call(aptinst + "python3.8-distutils")
             getpip = [
                 "curl",
                 "https://bootstrap.pypa.io/get-pip.py",
@@ -44,15 +45,12 @@ def main():
             subprocess.check_call(getpip)
             runpip = ["sudo", "-H", sys.executable, "get-pip.py"]
             subprocess.check_call(runpip)
-    subprocess.check_call(
-        [sys.executable, "-m", "pip", "install", "-U", "pipenv"]
-    )
+    pipenvins = [sys.executable, "-m", "pip", "install", "-U", "pipenv"]
+    subprocess.check_call(pipenvins)
     subprocess.check_call(
         [sys.executable, "-m", "pipenv", "install", "--system", "--deploy"]
     )
-    subprocess.check_call(
-        [sys.executable, "-m", "edification"]
-    )
+    subprocess.check_call([sys.executable, "-m", "edification"])
 
 
 if __name__ == "__main__":

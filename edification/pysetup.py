@@ -1,5 +1,5 @@
 """
-Setup python symlink
+cleanup python
 """
 
 import pathlib
@@ -8,11 +8,13 @@ import subprocess
 
 def pysetup():
     """
-    Setup python symlink
+    runs python setup
     """
-    target = pathlib.Path("/usr/bin/python")
-    if not target.exists():
-        source = pathlib.Path("/usr/bin/python3.8")
-        subprocess.check_call([
-            "sudo", "ln", str(source), str(target)
-        ])
+    cleanup_py38_mess()
+
+def cleanup_py38_mess():
+    # We needed these to get here but now they get in the way of the system
+    # python so drop them.
+    subprocess.call([
+        "sudo", "apt-get", "remove", "python3.8-distutils", "python3.8-lib2to3"
+    ])
