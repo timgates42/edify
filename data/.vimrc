@@ -1,3 +1,27 @@
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+Plugin 'psf/black'
+Plugin 'timgates42/vim-isort'
+Plugin 'vim-syntastic/syntastic'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-dispatch'
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+" Put your non-Plugin stuff after this line
+
 execute pathogen#infect()
 
 set statusline+=%#warningmsg#
@@ -8,6 +32,8 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 1
+
+let g:black_fast=1
 
 set nocompatible
 
@@ -47,10 +73,3 @@ if &term == "rxvt-cygwin-native"
     imap <Esc>[8~ <C-o>$
 endif
 
-set g:black_fast=1
-
-Plugin 'gmarik/Vundle.vim'
-Plugin 'psf/black'
-Plugin 'fisadev/vim-isort'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-dispatch'
