@@ -6,6 +6,8 @@ import io
 import pathlib
 import re
 
+from edification.storage import get_basedir
+
 
 def bashsetup():
     """
@@ -13,7 +15,7 @@ def bashsetup():
     """
     if check_present():
         return
-    target = pathlib.Path.home() / "data" / "bashrc.sh"
+    target = get_basedir() / "data" / "bashrc.sh"
     fpath = pathlib.Path.home() / ".bashrc"
     with io.open(fpath, "a", encoding="utf-8") as fobj:
         print("", file=fobj)
