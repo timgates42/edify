@@ -19,6 +19,12 @@ def vimsetup():
     src = get_basedir() / "data" / ".isort.cfg"
     trg = pathlib.Path.home() / ".isort.cfg"
     shutil.copy(src, trg)
+    src = get_basedir() / "data" / ".flake8.cfg"
+    trg = pathlib.Path.home() / ".config", "flake8.cfg"
+    shutil.copy(src, trg)
+    src = get_basedir() / "data" / ".pylintrc"
+    trg = pathlib.Path.home() / ".pylintrc"
+    shutil.copy(src, trg)
     pathogen_vundle()
     syntastic()
 

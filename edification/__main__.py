@@ -3,6 +3,7 @@ Load and run all machine setup
 """
 
 import edification.bashsetup
+import edification.dockersetup
 import edification.gitsetup
 import edification.pysetup
 import edification.storage
@@ -18,6 +19,7 @@ def main():
     edification.gitsetup.gitsetup()
     edification.pysetup.pysetup()
     edification.bashsetup.bashsetup()
+    edification.dockersetup.dockersetup()
 
 
 if __name__ == "__main__":
