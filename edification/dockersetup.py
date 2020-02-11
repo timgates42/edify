@@ -2,6 +2,7 @@
 Docker install
 """
 
+import getpass
 import subprocess
 
 from plumbum import FG, local
@@ -32,3 +33,4 @@ def dockersetup():
     )
     _ = sudo["apt-get", "update"] & FG
     _ = sudo["apt-get", "install", "docker-ce", "docker-ce-cli", "containerd.io"] & FG
+    _ = sudo["usermod", "-a", "-G", "docker", getpass.getuser()] & FG
