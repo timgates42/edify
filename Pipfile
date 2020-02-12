@@ -101,6 +101,7 @@ isort = "*"
 spelling = "*"
 twine = "*"
 docker-compose = "*"
+keyrings-alt = "*"
 
 [requires]
 python_version = "3.8"

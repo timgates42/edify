@@ -30,7 +30,16 @@ def main():
     subprocess.check_call(aptinst + packages)
     for retry in range(2):
         try:
-            pipupgrade = [sys.executable, "-m", "pip", "install", "-U", "pip"]
+            pipupgrade = [
+                "sudo",
+                "-H",
+                sys.executable,
+                "-m",
+                "pip",
+                "install",
+                "-U",
+                "pip",
+            ]
             subprocess.check_call(pipupgrade)
         except subprocess.CalledProcessError:
             if retry:
@@ -45,10 +54,19 @@ def main():
             subprocess.check_call(getpip)
             runpip = ["sudo", "-H", sys.executable, "get-pip.py"]
             subprocess.check_call(runpip)
-    pipenvins = [sys.executable, "-m", "pip", "install", "-U", "pipenv"]
+    pipenvins = ["sudo", "-H", sys.executable, "-m", "pip", "install", "-U", "pipenv"]
     subprocess.check_call(pipenvins)
     subprocess.check_call(
-        [sys.executable, "-m", "pipenv", "install", "--system", "--deploy"]
+        [
+            "sudo",
+            "-H",
+            sys.executable,
+            "-m",
+            "pipenv",
+            "install",
+            "--system",
+            "--deploy",
+        ]
     )
     subprocess.check_call([sys.executable, "-m", "edification"])
 
