@@ -102,6 +102,7 @@ spelling = "*"
 twine = "*"
 docker-compose = "*"
 keyrings-alt = "*"
+line-profiler = "*"
 
 [requires]
 python_version = "3.8"
