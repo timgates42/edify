@@ -6,3 +6,7 @@ export GHTG=ssh://git@github.com/timgates42
 export EDITOR=vim
 export GIT_EDITOR=vim
 export GPG_TTY=$(tty)
+
+if [[ -n "$PS1" ]] && [[ -z "$TMUX" ]] && [[ -n "$SSH_CONNECTION" ]]; then
+  tmux attach-session -t ssh_tmux || tmux new-session -s ssh_tmux
+fi

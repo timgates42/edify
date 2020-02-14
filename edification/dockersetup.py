@@ -12,7 +12,7 @@ def dockersetup():
     """
     Docker install
     """
-    if subprocess.call(["which", "docker"]):
+    if subprocess.call(["which", "docker"]) == 0:
         return
     sudo = local["sudo"]
     curl = local["curl"]
