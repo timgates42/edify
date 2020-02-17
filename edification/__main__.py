@@ -8,6 +8,7 @@ import edification.gitsetup
 import edification.pysetup
 import edification.storage
 import edification.terraformsetup
+import edification.tmuxsetup
 import edification.vimsetup
 
 
@@ -22,6 +23,7 @@ def main():
     edification.bashsetup.bashsetup()
     edification.dockersetup.dockersetup()
     edification.terraformsetup.terraformsetup()
+    edification.tmuxsetup.tmuxsetup()
 
 
 if __name__ == "__main__":
