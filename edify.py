@@ -73,8 +73,13 @@ def main():
         except subprocess.CalledProcessError:
             if retry:
                 raise
-            pipenvins = ["sudo", "-H", sys.executable, "-m", "pip", "install", "--ignore-installed", "httplib2"]
-            subprocess.check_call(pipenvins)
+            sysinss = [
+                "httplib2",
+                "pyyaml",
+            ]
+            pipenvins = ["sudo", "-H", sys.executable, "-m", "pip", "install", "--ignore-installed"]
+            for sysins in sysinss:
+                subprocess.check_call(pipenvins + [sysins])
     subprocess.check_call([sys.executable, "-m", "edification"])
 
 
