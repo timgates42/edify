@@ -44,7 +44,7 @@ def main():
         except subprocess.CalledProcessError:
             if retry:
                 raise
-            subprocess.check_call(aptinst + "python3.8-distutils")
+            subprocess.check_call(aptinst + ["python3.8-distutils"])
             getpip = [
                 "curl",
                 "https://bootstrap.pypa.io/get-pip.py",
