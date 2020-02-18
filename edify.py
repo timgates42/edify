@@ -56,18 +56,25 @@ def main():
             subprocess.check_call(runpip)
     pipenvins = ["sudo", "-H", sys.executable, "-m", "pip", "install", "-U", "pipenv"]
     subprocess.check_call(pipenvins)
-    subprocess.check_call(
-        [
-            "sudo",
-            "-H",
-            sys.executable,
-            "-m",
-            "pipenv",
-            "install",
-            "--system",
-            "--deploy",
-        ]
-    )
+    for retry in range(2):
+        try:
+            subprocess.check_call(
+                [
+                    "sudo",
+                    "-H",
+                    sys.executable,
+                    "-m",
+                    "pipenv",
+                    "install",
+                    "--system",
+                    "--deploy",
+                ]
+            )
+        except subprocess.CalledProcessError:
+            if retry:
+                raise
+            pipenvins = ["sudo", "-H", sys.executable, "-m", "pip", "install", "--ignore-installed", "httplib2"]
+            subprocess.check_call(pipenvins)
     subprocess.check_call([sys.executable, "-m", "edification"])
 
 
