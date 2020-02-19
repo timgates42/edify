@@ -32,5 +32,5 @@ def dockersetup():
         & FG
     )
     _ = sudo["apt-get", "update"] & FG
-    _ = sudo["apt-get", "install", "docker-ce", "docker-ce-cli", "containerd.io"] & FG
+    _ = sudo["apt-get", "install", "-y", "docker-ce", "docker-ce-cli", "containerd.io"] & FG
     _ = sudo["usermod", "-a", "-G", "docker", getpass.getuser()] & FG
