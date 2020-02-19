@@ -41,6 +41,7 @@ def main():
                 "pip",
             ]
             subprocess.check_call(pipupgrade)
+            break
         except subprocess.CalledProcessError:
             if retry:
                 raise
@@ -70,6 +71,7 @@ def main():
                     "--deploy",
                 ]
             )
+            break
         except subprocess.CalledProcessError:
             if retry:
                 raise
