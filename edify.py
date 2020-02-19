@@ -76,6 +76,7 @@ def main():
             sysinss = [
                 "httplib2",
                 "pyyaml",
+                "simplejson",
             ]
             pipenvins = ["sudo", "-H", sys.executable, "-m", "pip", "install", "--ignore-installed"]
             for sysins in sysinss:
