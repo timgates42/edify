@@ -4,6 +4,7 @@ Load and run all machine setup
 
 import edification.bashsetup
 import edification.dockersetup
+import edification.gensetup
 import edification.gitsetup
 import edification.pinentrysetup
 import edification.pysetup
@@ -18,6 +19,7 @@ def main():
     Run all machine setup
     """
     edification.storage.prepare()
+    edification.gensetup.gensetup()
     edification.vimsetup.vimsetup()
     edification.gitsetup.gitsetup()
     edification.pinentrysetup.pinentrysetup()
