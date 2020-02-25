@@ -80,7 +80,16 @@ def main():
                 "pyyaml",
                 "simplejson",
             ]
-            pipenvins = ["sudo", "-H", sys.executable, "-m", "pip", "install", "--ignore-installed"]
+            pipenvins = [
+                "sudo",
+                "-H",
+                sys.executable,
+                "-m",
+                "pip",
+                "install",
+                "--ignore-installed",
+                "-U",
+            ]
             for sysins in sysinss:
                 subprocess.check_call(pipenvins + [sysins])
     subprocess.check_call([sys.executable, "-m", "edification"])
