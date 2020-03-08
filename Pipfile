@@ -103,6 +103,7 @@ twine = "*"
 docker-compose = "*"
 keyrings-alt = "*"
 workflow = "*"
+dlint = "*"
 
 [requires]
 python_version = "3.8"
