@@ -103,6 +103,7 @@ twine = "*"
 docker-compose = "*"
 keyrings-alt = "*"
 workflow = "*"
+flake8-bandit = "*"
 
 [requires]
 python_version = "3.8"
