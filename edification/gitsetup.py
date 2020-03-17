@@ -21,3 +21,6 @@ def gitsetup():
     subprocess.check_call(gpgsign)
     signkey = globalconf + ["user.signingkey", storage.get_user_email()]
     subprocess.check_call(signkey)
+    subprocess.check_call(
+        globalconf + ["fetch.prune", "true"]
+    )
