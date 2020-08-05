@@ -20,7 +20,10 @@ def vimsetup():
     trg = pathlib.Path.home() / ".isort.cfg"
     shutil.copy(src, trg)
     src = get_basedir() / "data" / ".flake8"
-    trg = pathlib.Path.home() / ".config" / "flake8"
+    trg = pathlib.Path.home() / ".config"
+    if not trg.is_dir():
+        trg.mkdir()
+    trg = trg / "flake8"
     shutil.copy(src, trg)
     src = get_basedir() / "data" / ".pylintrc"
     trg = pathlib.Path.home() / ".pylintrc"
