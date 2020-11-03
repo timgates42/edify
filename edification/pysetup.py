@@ -5,12 +5,21 @@ cleanup python
 import subprocess
 
 
+def get_system_py():
+    """
+    Direct version of the system python version
+    """
+    release = subprocess.check_output(["lsb_release", "-s", "-r"])
+    return {
+        "18.04": "python3.6"
+    }.get(release, "python3.8")
+
 def pysetup():
     """
     runs python setup
     """
     check = subprocess.call(
-        ["python3.6", "-c", "__import__('isort');__import__('black')"]
+        [get_system_py(), "-c", "__import__('isort');__import__('black')"]
     )
     if check == 0:
         return
@@ -41,8 +50,9 @@ def setup_regular_py():
     """
     Install python 3.6 isort
     """
+    pyexe = get_system_py()
     aptins = ["sudo", "apt-get", "install", "-y"]
     subprocess.call(aptins + ["python3-distutils"])
-    subprocess.call(["sudo", "python3.6", "get-pip.py"])
-    subprocess.call(["sudo", "python3.6", "-m", "pip", "install", "isort"])
-    subprocess.call(["sudo", "python3.6", "-m", "pip", "install", "black"])
+    subprocess.call(["sudo", pyexe, "get-pip.py"])
+    subprocess.call(["sudo", pyexe, "-m", "pip", "install", "isort"])
+    subprocess.call(["sudo", pyexe, "-m", "pip", "install", "black"])
