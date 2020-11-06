@@ -8,9 +8,13 @@ set -euo pipefail
 
 BASEDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-if ! which python3.8 >/dev/null 2>/dev/null ; then
+PYVER="3.9"
+export PYVER
+PYTHON="python${PYVER}"
+export PYTHON
+if ! which "${PYTHON}" >/dev/null 2>/dev/null ; then
   sudo -H add-apt-repository -y ppa:deadsnakes/ppa
   sudo -H apt-get -y update
-  sudo -H apt-get -y install python3.8
+  sudo -H apt-get -y install "${PYTHON}"
 fi
-python3.8 "${BASEDIR}/edify.py"
+"${PYTHON}" "${BASEDIR}/edify.py"
