@@ -11,8 +11,8 @@ def main():
     """
     Load essentials and run python entry point
     """
-    if sys.version_info[:2] != (3, 8):
-        print("Run edify.sh to install edify", sys=sys.stderr)
+    if sys.version_info[:2] != (3, 9):
+        print("Run edify.sh to install edify", file=sys.stderr)
         sys.exit(1)
     aptinst = ["sudo", "-H", "apt", "install", "-y"]
     packages = [
