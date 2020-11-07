@@ -2,7 +2,9 @@
 Setup for the meticulous project
 """
 
+import pathlib
 import subprocess  # noqa # nosec
+import sys
 from getpass import getuser
 
 CREATE_USER = """\
@@ -28,6 +30,7 @@ GRANT = """
 GRANT ALL PRIVILEGES ON DATABASE %(db)s TO %(user)s;
 """
 
+
 def meticuloussetup():
     """
     Setup for the meticulous project
@@ -35,25 +38,46 @@ def meticuloussetup():
     rproxy()
     meticulousdb()
 
+
+def get_basedir():
+    """
+    project root path
+    """
+    return pathlib.Path(sys.modules[__name__].__file__).resolve().parent.parent
+
+
 def rproxy():
     """
     Setup the reverse proxy
     """
-    subprocess.call(["sudo", "apt-get", "install", "-y", "apache2"])  # noqa # nosec
+    subprocess.run(  # noqa # nosec
+        ["sudo", "apt-get", "install", "-y", "apache2"], check=True
+    )
     target = pathlib.Path("/etc/apache2/conf-available/meticulous.conf")
-    target = pathlib.Path("/etc/apache2/conf-available/meticulous.conf")
+    src = get_basedir() / "apache" / "meticulous.conf"
     if not target.is_file():
-        subprocess.call(["sudo", "cp", str(src), str(target)]) # noqa # nosec
+        subprocess.run(  # noqa # nosec
+            ["sudo", "cp", str(src), str(target)], check=True
+        )
+
 
 def meticulousdb():
     """
     Setup db access
     """
-    subprocess.call(["sudo", "apt-get", "install", "-y", "postgresql"])  # noqa # nosec
+    subprocess.run(  # noqa # nosec
+        ["sudo", "apt-get", "install", "-y", "postgresql"], check=True
+    )
     sql = CREATE_USER % {"user": getuser()}
-    subprocess.call(["sudo", "-u", "postgres", "psql", "-c", sql])  # noqa # nosec
+    subprocess.run(  # noqa # nosec
+        ["sudo", "-u", "postgres", "psql", "-c", sql], check=True
+    )
     for dbname in (getuser(), "meticulous"):
         sql = (CREATE_DB % {"db": dbname}).encode("ascii")
-        subprocess.run(["sudo", "-u", "postgres", "psql"], input=sql, check=True)  # noqa # nosec
+        subprocess.run(  # noqa # nosec
+            ["sudo", "-u", "postgres", "psql"], input=sql, check=True
+        )
         sql = GRANT % {"user": getuser(), "db": dbname}
-        subprocess.call(["sudo", "-u", "postgres", "psql", "-c", sql])  # noqa # nosec
+        subprocess.run(  # noqa # nosec
+            ["sudo", "-u", "postgres", "psql", "-c", sql], check=True
+        )
