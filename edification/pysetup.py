@@ -18,8 +18,8 @@ def pysetup():
     """
     runs python setup
     """
-    check = subprocess.call(  # noqa # nosec
-        [get_system_py(), "-c", "__import__('isort');__import__('black')"]
+    check = subprocess.run(  # noqa # nosec
+        [get_system_py(), "-c", "__import__('isort');__import__('black')"], check=True
     )
     if check == 0:
         return
@@ -36,8 +36,9 @@ def enter_pylatest(pylatest):
     After installing standard python pip and package we resume py latest
     """
     aptins = ["sudo", "apt-get", "install", "-y"]
-    subprocess.call(  # noqa # nosec
-        aptins + [f"python{pylatest}-distutils", f"python{pylatest}-lib2to3"]
+    subprocess.run(  # noqa # nosec
+        aptins + [f"python{pylatest}-distutils", f"python{pylatest}-lib2to3"],
+        check=True,
     )
 
 
@@ -46,8 +47,9 @@ def exit_pylatest(pylatest):
     To install standard python pip we need to temporarily remove these
     """
     aptremove = ["sudo", "apt-get", "remove", "-y"]
-    subprocess.call(  # noqa # nosec
-        aptremove + [f"python{pylatest}-distutils", f"python{pylatest}-lib2to3"]
+    subprocess.run(  # noqa # nosec
+        aptremove + [f"python{pylatest}-distutils", f"python{pylatest}-lib2to3"],
+        check=True,
     )
 
 
@@ -57,7 +59,11 @@ def setup_regular_py():
     """
     pyexe = get_system_py()
     aptins = ["sudo", "apt-get", "install", "-y"]
-    subprocess.call(aptins + ["python3-distutils"])  # noqa # nosec
-    subprocess.call(["sudo", pyexe, "get-pip.py"])  # noqa # nosec
-    subprocess.call(["sudo", pyexe, "-m", "pip", "install", "isort"])  # noqa # nosec
-    subprocess.call(["sudo", pyexe, "-m", "pip", "install", "black"])  # noqa # nosec
+    subprocess.run(aptins + ["python3-distutils"], check=True)  # noqa # nosec
+    subprocess.run(["sudo", pyexe, "get-pip.py"], check=True)  # noqa # nosec
+    subprocess.run(  # noqa # nosec
+        ["sudo", pyexe, "-m", "pip", "install", "isort"], check=True
+    )
+    subprocess.run(  # noqa # nosec
+        ["sudo", pyexe, "-m", "pip", "install", "black"], check=True
+    )
