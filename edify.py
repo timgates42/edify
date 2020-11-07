@@ -11,7 +11,12 @@ def main():
     """
     Load essentials and run python entry point
     """
-    if sys.version_info[:2] != (3, 9):
+    try:
+        pyver = os.environ["PYVER"]
+    except KeyError:
+        pyver = "1.0"
+    pyvertup = tuple(int(val) for val in pyver.split("."))
+    if sys.version_info[:2] != pyvertup:
         print("Run edify.sh to install edify", file=sys.stderr)
         sys.exit(1)
     aptinst = ["sudo", "-H", "apt", "install", "-y"]
@@ -21,7 +26,7 @@ def main():
         "unixodbc-dev",
         "libldap2-dev",
         "libsasl2-dev",
-        "python3.8-dev",
+        f"python{pyver}-dev",
         "build-essential",
         "vim",
         "curl",
@@ -45,7 +50,7 @@ def main():
         except subprocess.CalledProcessError:
             if retry:
                 raise
-            subprocess.check_call(aptinst + ["python3.8-distutils"])
+            subprocess.check_call(aptinst + [f"python{pyver}-distutils"])
             getpip = [
                 "curl",
                 "https://bootstrap.pypa.io/get-pip.py",
