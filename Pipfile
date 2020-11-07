@@ -105,6 +105,7 @@ keyrings-alt = "*"
 workflow = "*"
 flake8-bandit = "*"
 dlint = "*"
+flask = "*"
 
 [requires]
 python_version = "3.9"
