@@ -6,6 +6,7 @@ import edification.bashsetup
 import edification.dockersetup
 import edification.gensetup
 import edification.gitsetup
+import edification.gpgsetup
 import edification.meticuloussetup
 import edification.pinentrysetup
 import edification.pysetup
@@ -20,6 +21,7 @@ def main():
     Run all machine setup
     """
     edification.storage.prepare()
+    edification.gpgsetup.gpgsetup()
     edification.meticuloussetup.meticuloussetup()
     edification.gensetup.gensetup()
     edification.vimsetup.vimsetup()
