@@ -79,6 +79,7 @@ def main():
                 "httplib2",
                 "pyyaml",
                 "simplejson",
+                "psutil",
             ]
             pipenvins = [
                 "sudo",
