@@ -24,6 +24,9 @@ SELECT 'CREATE DATABASE %(db)s'
 WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = '%(db)s')\\gexec
 """
 
+GRANT = """
+GRANT ALL PRIVILEGES ON DATABASE %(db)s TO %(user)s;
+"""
 
 def meticuloussetup():
     """
@@ -36,3 +39,5 @@ def meticuloussetup():
     for dbname in (getuser(), "meticulous"):
         sql = (CREATE_DB % {"db": dbname}).encode("ascii")
         subprocess.run(["sudo", "-u", "postgres", "psql"], input=sql, check=True)  # noqa # nosec
+        sql = GRANT % {"user": getuser(), "db": dbname}
+        subprocess.call(["sudo", "-u", "postgres", "psql", "-c", sql])  # noqa # nosec
