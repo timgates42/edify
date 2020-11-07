@@ -32,8 +32,24 @@ def meticuloussetup():
     """
     Setup for the meticulous project
     """
-    subprocess.call(["sudo", "apt-get", "install", "-y", "postgresql"])  # noqa # nosec
+    rproxy()
+    meticulousdb()
+
+def rproxy():
+    """
+    Setup the reverse proxy
+    """
     subprocess.call(["sudo", "apt-get", "install", "-y", "apache2"])  # noqa # nosec
+    target = pathlib.Path("/etc/apache2/conf-available/meticulous.conf")
+    target = pathlib.Path("/etc/apache2/conf-available/meticulous.conf")
+    if not target.is_file():
+        subprocess.call(["sudo", "cp", str(src), str(target)]) # noqa # nosec
+
+def meticulousdb():
+    """
+    Setup db access
+    """
+    subprocess.call(["sudo", "apt-get", "install", "-y", "postgresql"])  # noqa # nosec
     sql = CREATE_USER % {"user": getuser()}
     subprocess.call(["sudo", "-u", "postgres", "psql", "-c", sql])  # noqa # nosec
     for dbname in (getuser(), "meticulous"):
