@@ -35,4 +35,4 @@ def meticuloussetup():
     subprocess.call(["sudo", "-u", "postgres", "psql", "-c", sql])  # noqa # nosec
     for dbname in (getuser(), "meticulous"):
         sql = CREATE_DB % {"db": dbname}
-        subprocess.call(["sudo", "-u", "postgres", "psql", "-c", sql])  # noqa # nosec
+        subprocess.run(["sudo", "-u", "postgres", "psql"], input=sql, check=True)  # noqa # nosec
