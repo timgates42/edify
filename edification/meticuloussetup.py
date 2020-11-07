@@ -59,6 +59,23 @@ def rproxy():
         subprocess.run(  # noqa # nosec
             ["sudo", "cp", str(src), str(target)], check=True
         )
+    path = "/etc/apache2/sites-enabled/000-default.conf"
+    grepstatus = subprocess.call(["grep", "meticulous", path])  # noqa # nosec
+    if grepstatus != 0:
+        subprocess.run(  # noqa # nosec
+            [
+                "sudo",
+                "sed",
+                "-i",
+                "/^[<]\\/VirtualHost/"
+                "i         Include conf-available/meticulous.conf",
+                path,
+            ],
+            check=True,
+        )
+    subprocess.check_call(["sudo", "a2enmod", "proxy"])  # noqa # nosec
+    subprocess.check_call(["sudo", "a2enmod", "proxy_http"])  # noqa # nosec
+    subprocess.check_call(["sudo", "/etc/init.d/apache2", "reload"])  # noqa # nosec
 
 
 def meticulousdb():

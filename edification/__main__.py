@@ -20,6 +20,7 @@ def main():
     Run all machine setup
     """
     edification.storage.prepare()
+    edification.meticuloussetup.meticuloussetup()
     edification.gensetup.gensetup()
     edification.vimsetup.vimsetup()
     edification.gitsetup.gitsetup()
@@ -29,7 +30,6 @@ def main():
     edification.dockersetup.dockersetup()
     edification.terraformsetup.terraformsetup()
     edification.tmuxsetup.tmuxsetup()
-    edification.meticuloussetup.meticuloussetup()
 
 
 if __name__ == "__main__":
