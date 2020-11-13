@@ -13,6 +13,7 @@ export PYVER
 PYTHON="python${PYVER}"
 export PYTHON
 if ! which "${PYTHON}" >/dev/null 2>/dev/null ; then
+  sudo -H update-ca-certificates
   sudo -H add-apt-repository -y ppa:deadsnakes/ppa
   sudo -H apt-get -y update
   sudo -H apt-get -y install "${PYTHON}"

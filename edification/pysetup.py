@@ -18,8 +18,8 @@ def pysetup():
     """
     runs python setup
     """
-    check = subprocess.run(  # noqa # nosec
-        [get_system_py(), "-c", "__import__('isort');__import__('black')"], check=True
+    check = subprocess.call(  # noqa # nosec
+        [get_system_py(), "-c", "__import__('isort');__import__('black')"]
     )
     if check == 0:
         return

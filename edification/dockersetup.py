@@ -3,7 +3,10 @@ Docker install
 """
 
 import getpass
-import subprocess
+import os
+import pathlib
+import subprocess  # noqa # nosec
+import sys
 
 from plumbum import FG, local
 
@@ -12,7 +15,15 @@ def dockersetup():
     """
     Docker install
     """
-    if subprocess.call(["which", "docker"]) == 0:
+    dockerinstall()
+    dockernet()
+
+
+def dockerinstall():
+    """
+    Command install
+    """
+    if subprocess.call(["which", "docker"]) == 0:  # noqa # nosec
         return
     sudo = local["sudo"]
     curl = local["curl"]
@@ -32,5 +43,28 @@ def dockersetup():
         & FG
     )
     _ = sudo["apt-get", "update"] & FG
-    _ = sudo["apt-get", "install", "-y", "docker-ce", "docker-ce-cli", "containerd.io"] & FG
+    _ = sudo[
+        "apt-get", "install", "-y", "docker-ce", "docker-ce-cli", "containerd.io"
+    ] & FG
     _ = sudo["usermod", "-a", "-G", "docker", getpass.getuser()] & FG
+
+
+def get_basedir():
+    """
+    Locate the root directory of this project
+    """
+    this_py_path = pathlib.Path(sys.modules[__name__].__file__)
+    return this_py_path.absolute().parent.parent
+
+
+def dockernet():
+    """
+    Setup docker network
+    """
+    daemonpath = "/etc/docker/daemon.json"
+    if os.path.isfile(daemonpath):
+        return
+    cppath = get_basedir() / "daemon.json"
+    sudo = local["sudo"]
+    _ = sudo["cp", str(cppath), daemonpath] & FG
+    _ = sudo["/etc/init.d/docker", "restart"] & FG
