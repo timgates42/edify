@@ -18,6 +18,14 @@ def pysetup():
     """
     runs python setup
     """
+    pyinssetup()
+    pypipsetup()
+
+
+def pyinssetup():
+    """
+    Basic python install
+    """
     check = subprocess.run(  # noqa # nosec
         [get_system_py(), "-c", "__import__('isort');__import__('black')"], check=True
     )
@@ -67,3 +75,9 @@ def setup_regular_py():
     subprocess.run(  # noqa # nosec
         ["sudo", pyexe, "-m", "pip", "install", "black"], check=True
     )
+
+
+def pypipsetup():
+    """
+    Ensure artifactory available in pypi config
+    """

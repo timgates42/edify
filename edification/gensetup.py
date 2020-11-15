@@ -9,6 +9,6 @@ def gensetup():
     """
     Simple general installations
     """
-    subprocess.check_call([
-        'sudo', 'apt', 'install', '-y', 'links'
-    ])
+    subprocess.check_call(
+        ["sudo", "apt", "install", "-y", "links", "expect",]
+    )
