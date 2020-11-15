@@ -64,7 +64,7 @@ def dockernet():
     daemonpath = "/etc/docker/daemon.json"
     if os.path.isfile(daemonpath):
         return
-    cppath = get_basedir() / "daemon.json"
+    cppath = get_basedir() / "data" / "daemon.json"
     sudo = local["sudo"]
     _ = sudo["cp", str(cppath), daemonpath] & FG
     _ = sudo["/etc/init.d/docker", "restart"] & FG
