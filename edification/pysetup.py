@@ -67,7 +67,7 @@ def setup_regular_py():
     """
     pyexe = get_system_py()
     aptins = ["sudo", "apt-get", "install", "-y"]
-    subprocess.run(aptins + ["python3-distutils"], check=True)  # noqa # nosec
+    subprocess.run(aptins + ["python3-venv", "python3-distutils"], check=True)  # noqa # nosec
     subprocess.run(["sudo", pyexe, "get-pip.py"], check=True)  # noqa # nosec
     subprocess.run(  # noqa # nosec
         ["sudo", pyexe, "-m", "pip", "install", "isort"], check=True
