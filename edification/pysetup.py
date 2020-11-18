@@ -3,7 +3,10 @@ cleanup python
 """
 
 import os
+import pathlib
+import shutil
 import subprocess  # noqa # nosec
+import sys
 
 
 def get_system_py():
@@ -71,9 +74,9 @@ def setup_regular_py():
     """
     pyexe = get_system_py()
     aptins = ["sudo", "apt-get", "install", "-y"]
-    subprocess.run(
+    subprocess.run(  # noqa # nosec
         aptins + ["python3-venv", "python3-distutils"], check=True
-    )  # noqa # nosec
+    )
     subprocess.run(["sudo", pyexe, "get-pip.py"], check=True)  # noqa # nosec
     subprocess.run(  # noqa # nosec
         ["sudo", pyexe, "-m", "pip", "install", "isort"], check=True
@@ -86,7 +89,33 @@ def setup_regular_py():
     )
 
 
+def get_basedir():
+    """
+    Locate the root directory of this project
+    """
+    this_py_path = pathlib.Path(sys.modules[__name__].__file__)
+    return this_py_path.absolute().parent.parent
+
+
 def pypipsetup():
     """
     Ensure artifactory available in pypi config
     """
+    pypirc = get_basedir() / "data" / ".pypirc"
+    pipconf = get_basedir() / "data" / "pip.conf"
+    pipdir = pathlib.Path.home() / ".pip"
+    if not pipdir.is_dir():
+        pipdir.mkdir()
+    target = pipdir / "pip.conf"
+    if not target.is_file():
+        shutil.copy(pipconf, target)
+    target = pathlib.Path.home() / ".pypirc"
+    if not target.is_file():
+        shutil.copy(pypirc, target)
+    subprocess.run(["sudo", "mkdir", "-p", "/root/.pip"], check=True)  # noqa # nosec
+    subprocess.run(  # noqa # nosec
+        ["cp", str(pipconf), "/root/.pip/pip.conf"], check=True
+    )
+    subprocess.run(  # noqa # nosec
+        ["cp", str(pypirc), "/root/.pypirc"], check=True
+    )
