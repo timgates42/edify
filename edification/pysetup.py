@@ -27,7 +27,11 @@ def pyinssetup():
     Basic python install
     """
     check = subprocess.call(  # noqa # nosec
-        [get_system_py(), "-c", "__import__('isort');__import__('black')"]
+        [
+            get_system_py(),
+            "-c",
+            "__import__('isort');__import__('black');__import__('yamllint');",
+        ]
     )
     if check == 0:
         return
@@ -67,13 +71,18 @@ def setup_regular_py():
     """
     pyexe = get_system_py()
     aptins = ["sudo", "apt-get", "install", "-y"]
-    subprocess.run(aptins + ["python3-venv", "python3-distutils"], check=True)  # noqa # nosec
+    subprocess.run(
+        aptins + ["python3-venv", "python3-distutils"], check=True
+    )  # noqa # nosec
     subprocess.run(["sudo", pyexe, "get-pip.py"], check=True)  # noqa # nosec
     subprocess.run(  # noqa # nosec
         ["sudo", pyexe, "-m", "pip", "install", "isort"], check=True
     )
     subprocess.run(  # noqa # nosec
         ["sudo", pyexe, "-m", "pip", "install", "black"], check=True
+    )
+    subprocess.run(  # noqa # nosec
+        ["sudo", pyexe, "-m", "pip", "install", "yamllint"], check=True
     )
 
 
