@@ -106,6 +106,7 @@ workflow = "*"
 flake8-bandit = "*"
 dlint = "*"
 flask = "*"
+yamllint = "*"
 
 [requires]
 python_version = "3.9"

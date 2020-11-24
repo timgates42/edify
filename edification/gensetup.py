@@ -10,5 +10,5 @@ def gensetup():
     Simple general installations
     """
     subprocess.check_call(
-        ["sudo", "apt", "install", "-y", "links", "expect",]
+        ["sudo", "apt", "install", "-y", "links", "expect", "jq"]
     )
