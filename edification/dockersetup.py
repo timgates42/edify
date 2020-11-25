@@ -11,10 +11,12 @@ import sys
 from plumbum import FG, local
 
 
-def dockersetup():
+def dockersetup(nosudo):
     """
     Docker install
     """
+    if nosudo:
+        return
     dockerinstall()
     dockernet()
 

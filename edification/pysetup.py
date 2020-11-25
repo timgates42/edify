@@ -9,20 +9,28 @@ import subprocess  # noqa # nosec
 import sys
 
 
+def pysetup(nosudo):
+    """
+    runs python setup
+    """
+    if not nosudo:
+        pyinssetup()
+    pypipsetup(nosudo)
+
+
 def get_system_py():
     """
     Direct version of the system python version
     """
+    ubuntumajor = get_ubuntu_major()
+    return {16: "python3.5", 18: "python3.6", 20: "python3.8"}.get(ubuntumajor, "python3.8")
+
+def get_ubuntu_major():
+    """
+    Get which ubuntu major version
+    """
     release = subprocess.check_output(["lsb_release", "-s", "-r"])  # noqa # nosec
-    return {"18.04": "python3.6"}.get(release, "python3.8")
-
-
-def pysetup():
-    """
-    runs python setup
-    """
-    pyinssetup()
-    pypipsetup()
+    return int(release.decode("utf-8").split(".")[0])
 
 
 def pyinssetup():
@@ -33,7 +41,7 @@ def pyinssetup():
         [
             get_system_py(),
             "-c",
-            "__import__('isort');__import__('black');__import__('yamllint');",
+            "__import__('isort');__import__('yamllint');",
         ]
     )
     if check == 0:
@@ -70,20 +78,28 @@ def exit_pylatest(pylatest):
 
 def setup_regular_py():
     """
-    Install python 3.6 isort
+    Install libraries for system python 
     """
     pyexe = get_system_py()
     aptins = ["sudo", "apt-get", "install", "-y"]
-    subprocess.run(  # noqa # nosec
-        aptins + ["python3-venv", "python3-distutils"], check=True
-    )
-    subprocess.run(["sudo", pyexe, "get-pip.py"], check=True)  # noqa # nosec
+    ubuntumajor = get_ubuntu_major()
+    if ubuntumajor >= 18:
+        subprocess.run(  # noqa # nosec
+            aptins + ["python3-venv", "python3-distutils"], check=True
+        )
+    else:
+        subprocess.run(  # noqa # nosec
+            aptins + ["python3-venv"], check=True
+        )
+        subprocess.run(["sudo", "curl", "-o", "/root/get-pip.py", "https://bootstrap.pypa.io/get-pip.py"], check=True)  # noqa # nosec
+    subprocess.run(["sudo", pyexe, "/root/get-pip.py"], check=True)  # noqa # nosec
     subprocess.run(  # noqa # nosec
         ["sudo", pyexe, "-m", "pip", "install", "isort"], check=True
     )
-    subprocess.run(  # noqa # nosec
-        ["sudo", pyexe, "-m", "pip", "install", "black"], check=True
-    )
+    if ubuntumajor >= 18:
+        subprocess.run(  # noqa # nosec
+            ["sudo", pyexe, "-m", "pip", "install", "black"], check=True
+        )
     subprocess.run(  # noqa # nosec
         ["sudo", pyexe, "-m", "pip", "install", "yamllint"], check=True
     )
@@ -97,7 +113,7 @@ def get_basedir():
     return this_py_path.absolute().parent.parent
 
 
-def pypipsetup():
+def pypipsetup(nosudo):
     """
     Ensure artifactory available in pypi config
     """
@@ -112,10 +128,12 @@ def pypipsetup():
     target = pathlib.Path.home() / ".pypirc"
     if not target.is_file():
         shutil.copy(pypirc, target)
+    if nosudo:
+        return
     subprocess.run(["sudo", "mkdir", "-p", "/root/.pip"], check=True)  # noqa # nosec
     subprocess.run(  # noqa # nosec
-        ["cp", str(pipconf), "/root/.pip/pip.conf"], check=True
+        ["sudo", "cp", str(pipconf), "/root/.pip/pip.conf"], check=True
     )
     subprocess.run(  # noqa # nosec
-        ["cp", str(pypirc), "/root/.pypirc"], check=True
+        ["sudo", "cp", str(pypirc), "/root/.pypirc"], check=True
     )
