@@ -38,10 +38,12 @@ GRANT ALL PRIVILEGES ON DATABASE %(db)s TO %(user)s;
 """
 
 
-def meticuloussetup():
+def meticuloussetup(nosudo):
     """
     Setup for the meticulous project
     """
+    if nosudo:
+        return
     rproxy()
     meticulousdb()
 

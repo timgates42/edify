@@ -9,6 +9,15 @@ import subprocess  # noqa # nosec
 import sys
 
 
+def pysetup(nosudo):
+    """
+    runs python setup
+    """
+    if not nosudo:
+        pyinssetup()
+    pypipsetup(nosudo)
+
+
 def get_system_py():
     """
     Direct version of the system python version
@@ -22,15 +31,6 @@ def get_ubuntu_major():
     """
     release = subprocess.check_output(["lsb_release", "-s", "-r"])  # noqa # nosec
     return int(release.decode("utf-8").split(".")[0])
-
-
-def pysetup():
-    """
-    runs python setup
-    """
-    pyinssetup()
-    pypipsetup()
-
 
 def pyinssetup():
     """
@@ -112,7 +112,7 @@ def get_basedir():
     return this_py_path.absolute().parent.parent
 
 
-def pypipsetup():
+def pypipsetup(nosudo):
     """
     Ensure artifactory available in pypi config
     """
@@ -127,6 +127,8 @@ def pypipsetup():
     target = pathlib.Path.home() / ".pypirc"
     if not target.is_file():
         shutil.copy(pypirc, target)
+    if nosudo:
+        return
     subprocess.run(["sudo", "mkdir", "-p", "/root/.pip"], check=True)  # noqa # nosec
     subprocess.run(  # noqa # nosec
         ["sudo", "cp", str(pipconf), "/root/.pip/pip.conf"], check=True

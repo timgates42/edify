@@ -5,10 +5,12 @@ Set curses as default pinentry
 import subprocess  # nosec # noqa
 
 
-def pinentrysetup():
+def pinentrysetup(nosudo):
     """
     Set curses as default pinentry
     """
+    if nosudo:
+        return
     subprocess.run(  # nosec # noqa
         [
             "sudo",
