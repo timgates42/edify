@@ -99,17 +99,19 @@ def get_user_name():
     """
     Get or request user name
     """
-    return get_cached_input_value("user_name")
+    return get_cached_input_value("user_name", "Full Name")
 
 
-def get_cached_input_value(key):
+def get_cached_input_value(key, txt=None):
     """
     Get or request a value
     """
     value = get_json_value(key)
     if value:
         return value
-    value = get_input(f"{key}: ")
+    if not txt:
+        txt = key
+    value = get_input(f"{txt}: ")
     set_json_value(key, value)
     return value
 
