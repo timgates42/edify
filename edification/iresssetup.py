@@ -19,7 +19,7 @@ def prepare_certs():
     Copy over iress crt if not present and update root ca
     """
     iresscert = get_basedir() / "data" / "iress.crt"
-    target = pathlib.Path("/usr/local/share/ca-certificate/iress.crt")
+    target = pathlib.Path("/usr/local/share/ca-certificates/iress.crt")
     if target.is_file():
         return
     subprocess.call(["sudo", "cp", str(iresscert), str(target)])  # nosec # noqa
