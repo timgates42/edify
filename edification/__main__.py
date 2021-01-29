@@ -2,6 +2,8 @@
 Load and run all machine setup
 """
 
+import sys
+
 import edification.bashsetup
 import edification.dockersetup
 import edification.gensetup
@@ -21,16 +23,17 @@ def main():
     """
     Run all machine setup
     """
+    nosudo = "--no-sudo" in sys.argv
     edification.storage.prepare()
     edification.gpgsetup.gpgsetup()
-    edification.meticuloussetup.meticuloussetup()
-    edification.gensetup.gensetup()
+    edification.meticuloussetup.meticuloussetup(nosudo)
+    edification.gensetup.gensetup(nosudo)
     edification.vimsetup.vimsetup()
     edification.gitsetup.gitsetup()
-    edification.pinentrysetup.pinentrysetup()
-    edification.pysetup.pysetup()
+    edification.pinentrysetup.pinentrysetup(nosudo)
+    edification.pysetup.pysetup(nosudo)
     edification.bashsetup.bashsetup()
-    edification.dockersetup.dockersetup()
+    edification.dockersetup.dockersetup(nosudo)
     edification.terraformsetup.terraformsetup()
     edification.tmuxsetup.tmuxsetup()
     edification.iresssetup.prepare()
