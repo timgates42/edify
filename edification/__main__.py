@@ -14,6 +14,7 @@ import edification.storage
 import edification.terraformsetup
 import edification.tmuxsetup
 import edification.vimsetup
+import edification.iresssetup
 
 
 def main():
@@ -32,6 +33,7 @@ def main():
     edification.dockersetup.dockersetup()
     edification.terraformsetup.terraformsetup()
     edification.tmuxsetup.tmuxsetup()
+    edification.iresssetup.prepare()
 
 
 if __name__ == "__main__":
